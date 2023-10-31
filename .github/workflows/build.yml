@@ -20,3 +20,7 @@ jobs:
         sudo ./openh264-build-target-archs
         sudo ./opus-build
         sudo ./build
+    - uses: actions/upload-artifact@v3
+      with:
+        name: lipjsua2-android
+        path: /home/output

@@ -184,8 +184,7 @@ then
     echo "OpenSSL downloaded!"
     echo "Extracting OpenSSL ..."
     tar xzf openssl.tar.gz && rm -rf openssl.tar.gz
-    cd "${BASEDIR}"
-    #./openssl-build-target-archs
+    cd "${BASEDIR}" 
 fi
 
 if [ "$DOWNLOAD_OPENH264" == "1" ]
@@ -205,8 +204,7 @@ then
         echo "Modifying platform-android.mk to skip Encdemo and Decdemo builds"
         sed -e "/binaries: decdemo encdemo/ s/^#*/#/" -i ${OPENH264_DIR_NAME}/build/platform-android.mk
     fi
-    cd ${BASEDIR}
-    #./openh264-build-target-archs || true
+    cd ${BASEDIR} 
 fi
 
 if [ "$DOWNLOAD_OPUS" == "1" ]
@@ -220,8 +218,7 @@ then
     echo "Opus downloaded!"
     echo "Extracting Opus ..."
     tar xzf opus.tar.gz && rm -rf opus.tar.gz
-    cd ${BASEDIR}
-    #./opus-build || true
+    cd ${BASEDIR} 
 fi
 
 if [ "${DOWNLOAD_BCG729}" == "1" ]
@@ -234,8 +231,7 @@ then
     mkdir $BCG729_DIR_NAME
     git clone -b $BCG729_VERSION $BCG729_DOWNLOAD_URL $BCG729_DIR_NAME
     echo "bcg729 downloaded!"
-    cd ${BASEDIR}
-    #./bcg729-build || true
+    cd ${BASEDIR} 
 fi
 
 echo ""
