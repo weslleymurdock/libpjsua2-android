@@ -152,6 +152,10 @@ function buildPjSip {
     make clean >>"${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
     make >>"${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
 
+    cd "${PJSUA_BASE_DIR}"
+
+    make 
+
     echo "Compile PJSUA for arch $arch ..."
     cd "${PJSUA_BASE_DIR}"
     make >>"${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
@@ -162,7 +166,7 @@ function buildPjSip {
     # using /*/* we assume there is only one directory (whatever its name is)
     # and retrieve all its content (.so libs)
     mv "${PJSUA_GENERATED_SO_PATH}"/*/* "${FINAL_BUILD_LIB}/${arch}"
-
+    
     if [ -f ${OPENH264_BUILD_OUT_PATH}/libs/${arch}/lib/libopenh264.so ]; then
         echo "Copying OpenH264 .so library to final build directory ..."
         cp ${OPENH264_BUILD_OUT_PATH}/libs/${arch}/lib/libopenh264.so ${FINAL_BUILD_LIB}/${arch}/
