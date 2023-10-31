@@ -16,4 +16,7 @@ jobs:
         sudo su 
         cd ${{ github.workspace }}
         sudo ./prepare-build-system
+        sudo ./openssl-build-target-archs
+        sudo ./openh264-build-target-archs || true
+        sudo ./opus-build || true
         sudo ./build
