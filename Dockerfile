@@ -6,6 +6,7 @@ LABEL description="This is a custom Docker Image for build pjsip for android."
 ARG DEBIAN_FRONTEND=noninteractive
 
 COPY . .
-CMD [ "./prepare-build-system" ]
 
-ENTRYPOINT [ "./build" ]
+CMD [ "chmod" "-x prepare-build-system build entrypoint" ]
+
+ENTRYPOINT [ "./entrypoint" ]
