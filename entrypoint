@@ -1,4 +1,7 @@
 #!/bin/bash -e
 
 ./prepare-build-system
+./openh264-build-target-archs
+./openssl-build-target-archs
+./opus-build
 ./build

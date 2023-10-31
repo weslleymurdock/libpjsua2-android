@@ -1,7 +1,0 @@
-# action.yml
-name: 'Pjsip for android on docker'
-description: 'Action for build pjsip for android on docker'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-
