@@ -17,6 +17,6 @@ jobs:
         cd ${{ github.workspace }}
         sudo ./prepare-build-system
         sudo ./openssl-build-target-archs
-        sudo ./openh264-build-target-archs || true
-        sudo ./opus-build || true
+        sudo ./openh264-build-target-archs
+        sudo ./opus-build
         sudo ./build
