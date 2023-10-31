@@ -15,5 +15,5 @@ jobs:
       run: |
         sudo su 
         cd ${{ github.workspace }}
-        ./prepare-build-system
-        ./build
+        sudo ./prepare-build-system
+        sudo ./build
