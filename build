@@ -156,7 +156,7 @@ function buildPjSip {
 
     make 
 
-    if [ -f ${PJSUA_GENERATED_CSHARP_DIR}/*.cs ]; then
+    if [ -d ${PJSUA_GENERATED_CSHARP_DIR}/ ]; then
         echo "Copying c# sources to final build directory ..."
         if [ ! -d ${FINAL_BUILD_LIB}/csharp ]; then
             mkdir -p ${FINAL_BUILD_LIB}/csharp
@@ -180,9 +180,9 @@ function buildPjSip {
         cp ${OPENH264_BUILD_OUT_PATH}/libs/${arch}/lib/libopenh264.so ${FINAL_BUILD_LIB}/${arch}/
     fi
 
-    if [ -f ${OPENSSL_BUILD_OUT_PATH}/libs/${arch}/lib/*.so ]; then
+    if [ -d ${OPENSSL_BUILD_OUT_PATH}/libs/${arch}/lib/ ]; then
         echo "Copying OpenSSL .so libraries to final build directory ..."
-        cp ${OPENSSL_BUILD_OUT_PATH}/libs/${arch}/lib/*.so ${FINAL_BUILD_LIB}/${arch}/
+        cp -v ${OPENSSL_BUILD_OUT_PATH}/libs/${arch}/lib/*.so ${FINAL_BUILD_LIB}/${arch}/
     fi
 
     cp -f /home/tools/android-ndk-r21e/sources/cxx-stl/llvm-libc++/libs/${arch}/libc++_shared.so ${FINAL_BUILD_LIB}/${arch}/
