@@ -166,7 +166,15 @@ function buildPjSip {
     # using /*/* we assume there is only one directory (whatever its name is)
     # and retrieve all its content (.so libs)
     mv "${PJSUA_GENERATED_SO_PATH}"/*/* "${FINAL_BUILD_LIB}/${arch}"
-    
+
+    if [ -f ${PJSUA_GENERATED_CSHARP_DIR}/*.cs ]; then
+        echo "Copying c# sources to final build directory ..."
+        if [ ! -d ${FINAL_BUILD_LIB}/csharp ]; then
+            mkdir -p ${FINAL_BUILD_LIB}/csharp
+            cp -v ${PJSUA_GENERATED_CSHARP_DIR}/*.cs ${FINAL_BUILD_LIB}/csharp 
+        fi
+    fi
+
     if [ -f ${OPENH264_BUILD_OUT_PATH}/libs/${arch}/lib/libopenh264.so ]; then
         echo "Copying OpenH264 .so library to final build directory ..."
         cp ${OPENH264_BUILD_OUT_PATH}/libs/${arch}/lib/libopenh264.so ${FINAL_BUILD_LIB}/${arch}/
@@ -178,9 +186,6 @@ function buildPjSip {
 function copyPjsuaBindings {
     echo "Copying PJSUA2 java bindings to final build directory ..."
     cp -r "${PJSUA_GENERATED_JAVA_SRC_DIR}" "${FINAL_BUILD_DIR}"
-    echo ""
-    echo "Copying PJSUA2 csharp bindings to final build directory ..."
-    cp -r "${PJSUA_GENERATED_CSHARP_DIR}" "${FINAL_BUILD_DIR}"
 }
 
 function clearToolsDirectory {
