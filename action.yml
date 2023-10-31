@@ -4,5 +4,3 @@ description: 'Action for build pjsip for android on docker'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.who-to-greet }}
