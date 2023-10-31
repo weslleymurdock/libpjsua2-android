@@ -1,6 +1,4 @@
 #!/bin/bash -e
-# @author Aleksandar Gotev (alex.gotev@mobimesh.it)
-# @author Vincenzo Esposito (v.esposito@voismart.it)
 
 . config.conf
 
