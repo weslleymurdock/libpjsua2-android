@@ -1,0 +1,15 @@
+name: Scripts
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build libpjsua2 and external libs (libopenh264, libssl, libcrypto, libopus)
+      run: sudo ./entrypoint
