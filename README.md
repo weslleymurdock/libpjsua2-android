@@ -1,6 +1,14 @@
-# libpjsua2 for android docker action
+# libpjsua2 for android 
 
-This action builds the [pjproject library](https://github.com/pjsip/pjproject) with external libs support in a docker container
+---
+title: libpjsua2-android
+date: '2023-31-10'
+description: PJSIP Libraries built with Github Actions
+author: 'Weslley Murdock'
+---
+
+This repo builds the [pjproject](https://github.com/pjsip/pjproject) library with external libraries support in a github workflow
+An iOS version can be found [here](https://github.com/weslleymurdock/libpjsua2-ios).
 
 # Specs and Versions
 
@@ -26,7 +34,11 @@ Android Build-Tools Version: 30.0.3
 |      x86      |  x  |   x   |   x  |   x   |
 |     x86_64    |  x  |   x   |   x  |   x   |
 
+# Remaining TODO
 
-## Example usage
+- [ ] build a .aar java library
+- [ ] build a xamarin/maui library
 
-uses: weslleymurdock/libpjsua2-android-action@v1
+# ACKNOWLEDGEMENTS
+
+- [VoiSmart](https://github.com/VoiSmart/) for the hardwork on [scripts](https://github.com/VoiSmart/pjsip-android-builder) that brings me the idea of this work.
