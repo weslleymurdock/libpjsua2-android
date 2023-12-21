@@ -146,7 +146,8 @@ function buildPjSip {
     else
         echo "without BCG729 support"
     fi
-    sed -i'' -e 's/xamarin/maui/' "${PJSUA_BASE_DIR}/csharp/Makefile"
+    sed -i'' -e 's/xamarin/maui/g' "${PJSUA_BASE_DIR}/csharp/Makefile"
+    "${PJSUA_BASE_DIR}/csharp/Makefile" | grep maui
     APP_PLATFORM=android-${TARGET_ANDROID_API} TARGET_ABI=$arch ./configure-android "${args[@]}" >> "${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
 
     make dep >>"${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
