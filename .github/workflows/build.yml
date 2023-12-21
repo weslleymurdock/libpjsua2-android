@@ -15,6 +15,7 @@ jobs:
       run: |
         sudo su 
         cd ${{ github.workspace }}
+        mkdir -p /home/lib
         sudo ./prepare-build-system
         sudo ./openssl-build-target-archs
         sudo ./openh264-build-target-archs
@@ -23,4 +24,4 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: lipjsua2-android
-        path: /home/output
+        path: /home/lib
