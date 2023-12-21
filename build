@@ -147,7 +147,7 @@ function buildPjSip {
         echo "without BCG729 support"
     fi
     sed -i'' -e 's/xamarin/maui/g' "${PJSUA_BASE_DIR}/csharp/Makefile"
-    cat "${PJSUA_BASE_DIR}/csharp/Makefile" | grep maui
+    
     APP_PLATFORM=android-${TARGET_ANDROID_API} TARGET_ABI=$arch ./configure-android "${args[@]}" >> "${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
 
     make dep >>"${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
@@ -164,9 +164,10 @@ function buildPjSip {
     # using /*/* we assume there is only one directory (whatever its name is)
     # and retrieve all its content (.so libs)
     # note: this lib only works on java bindings. 
-    mv "${PJSUA_GENERATED_SO_PATH}"/*/* "${FINAL_BUILD_LIB}/${arch}"
-
-    mv "${PJSUA_GENERATED_SO_DIR}"/${arch} "${FINAL}/${arch}"
+    mv -v "${PJSUA_GENERATED_SO_PATH}"/*/* "${FINAL_BUILD_LIB}/${arch}"
+    #note: for maui bindings, use the lib generated in maui project dir
+    #for xamarin bindings, remove the sed command and the process is the same, copy from the xamarin dir
+    mv -v "${PJSUA_GENERATED_SO_DIR}"/*/*.so "${FINAL}/${arch}"
 
     if [ -f ${OPENH264_BUILD_OUT_PATH}/libs/${arch}/lib/libopenh264.so ]; then
         echo "Copying OpenH264 .so library to final build directory ..."
@@ -179,7 +180,7 @@ function buildPjSip {
         cp -v ${OPENSSL_BUILD_OUT_PATH}/libs/${arch}/lib/*.so ${FINAL_BUILD_LIB}/${arch}/
     fi
 
-    cp -f /home/tools/android-ndk-r21e/sources/cxx-stl/llvm-libc++/libs/${arch}/libc++_shared.so ${FINAL_BUILD_LIB}/${arch}/
+    # cp -f /home/tools/android-ndk-r21e/sources/cxx-stl/llvm-libc++/libs/${arch}/libc++_shared.so ${FINAL_BUILD_LIB}/${arch}/
 }
 
 function copyPjsuaBindings {
@@ -239,7 +240,7 @@ done
 copyPjsuaBindings
 
 # Delete the tools directory
-clearToolsDirectory
+#clearToolsDirectory
 
 # Setting Permission on build output directory
 # setPermissions
