@@ -167,7 +167,7 @@ function buildPjSip {
     mv -v "${PJSUA_GENERATED_SO_PATH}"/*/* "${FINAL_BUILD_LIB}/${arch}"
     #note: for maui bindings, use the lib generated in maui project dir
     #for xamarin bindings, remove the sed command and the process is the same, copy from the xamarin dir
-    mv -v "${PJSUA_GENERATED_SO_DIR}"/* "${FINAL}/${arch}"
+    cp -r -v "${PJSUA_GENERATED_SO_DIR}"/* "${FINAL}/${arch}"
 
     if [ -f ${OPENH264_BUILD_OUT_PATH}/libs/${arch}/lib/libopenh264.so ]; then
         echo "Copying OpenH264 .so library to final build directory ..."
@@ -185,7 +185,7 @@ function buildPjSip {
 
 function copyPjsuaBindings {
     echo "Copying PJSUA2 java and csharp bindings to final build directory ..."
-    cp -r "${PJSUA_GENERATED_JAVA_SRC_DIR}" "${FINAL_BUILD_DIR}"
+    cp -r "${PJSUA_GENERATED_JAVA_SRC_DIR}" "${FINAL}"
     
     if [ -d ${PJSUA_GENERATED_CSHARP_DIR}/ ]; then
         echo "Copying c# sources to final build directory ..."

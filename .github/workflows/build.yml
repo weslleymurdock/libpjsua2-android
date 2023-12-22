@@ -15,6 +15,16 @@ jobs:
       run: |
         cd ${{ github.workspace }}
         sudo mkdir -p /home/lib
+        apt-get update
+        apt-get purge -y openjdk*
+        apt-get install -y openjdk-8-jdk
+
+        DEPS="unzip git curl bzip2 binutils make autoconf openssl \
+          libssl-dev libopus0 libpcre3 libpcre3-dev build-essential nasm python2 swig" 
+        sh -c "dpkg --add-architecture i386; apt-get update && apt-get -y upgrade && apt-get install -y ${DEPS}"
+    - name: Prepare build system
+      run: |
+        cd ${{ github.workspace }}
         sudo ./prepare-build-system
     - name: Build openssl
       run: |
