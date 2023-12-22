@@ -167,7 +167,7 @@ function buildPjSip {
     mv -v "${PJSUA_GENERATED_SO_PATH}"/*/* "${FINAL_BUILD_LIB}/${arch}"
     #note: for maui bindings, use the lib generated in maui project dir
     #for xamarin bindings, remove the sed command and the process is the same, copy from the xamarin dir
-    cp -r -v "${PJSUA_GENERATED_SO_DIR}"/* "${FINAL}/${arch}"
+    cp -r -v "${PJSUA_GENERATED_SO_DIR}/${arch}"/* "${FINAL}/${arch}"
 
     if [ -f ${OPENH264_BUILD_OUT_PATH}/libs/${arch}/lib/libopenh264.so ]; then
         echo "Copying OpenH264 .so library to final build directory ..."
@@ -177,7 +177,8 @@ function buildPjSip {
 
     if [ -d ${OPENSSL_BUILD_OUT_PATH}/libs/${arch}/lib/ ]; then
         echo "Copying OpenSSL .so libraries to final build directory ..."
-        cp -v ${OPENSSL_BUILD_OUT_PATH}/libs/${arch}/lib/*.so ${FINAL_BUILD_LIB}/${arch}/
+        cp -v ${OPENSSL_BUILD_OUT_PATH}/libs/${arch}/lib/libssl.so ${FINAL_BUILD_LIB}/${arch}/
+        cp -v ${OPENSSL_BUILD_OUT_PATH}/libs/${arch}/lib/libcryto.so ${FINAL_BUILD_LIB}/${arch}/
     fi
 
     # cp -f /home/tools/android-ndk-r21e/sources/cxx-stl/llvm-libc++/libs/${arch}/libc++_shared.so ${FINAL_BUILD_LIB}/${arch}/
@@ -189,9 +190,9 @@ function copyPjsuaBindings {
     
     if [ -d ${PJSUA_GENERATED_CSHARP_DIR}/ ]; then
         echo "Copying c# sources to final build directory ..."
-        if [ ! -d ${FINAL}/csharp ]; then
-            mkdir -p ${FINAL}/csharp
-            cp -v ${PJSUA_GENERATED_CSHARP_DIR}/*.cs ${FINAL}/csharp 
+        if [ ! -d ${FINAL}/pjsua2 ]; then
+            mkdir -p ${FINAL}/pjsua2
+            cp -v ${PJSUA_GENERATED_CSHARP_DIR}/*.cs ${FINAL}/pjsua2 
         fi
     fi 
 }

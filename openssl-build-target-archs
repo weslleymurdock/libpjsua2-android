@@ -115,8 +115,11 @@ do
 
     # Copy libs to final destination folder
     cp libssl.a $OUTPUT_LIB
-    cp libcrypto.a $OUTPUT_LIB
-    # Uncomment if you want .so libs (pjsip only needs the static libs)
+    cp libcrypto.a $OUTPUT_LIB 
+    cp libssl.so $OUTPUT_LIB
+    cp libcrypto.so $OUTPUT_LIB 
+    
+
     mkdir -p "/home/lib/${arch}"
     cp libssl.so "/home/lib/${arch}"
     cp libcrypto.so "/home/lib/${arch}"
