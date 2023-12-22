@@ -11,16 +11,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Build libpjsua2 and external libs (libopenh264, libssl, libcrypto, libopus)
+    - name: Prepare Environment
       run: |
-        sudo su 
         cd ${{ github.workspace }}
         sudo mkdir -p /home/lib
         sudo ./prepare-build-system
+    - name: Build openssl
+      run: |
+        cd ${{ github.workspace }}
         sudo ./openssl-build-target-archs
+    - name: Build openh264
+      run: |
+        cd ${{ github.workspace }}
         sudo ./openh264-build-target-archs
+    - name: Build opus
+      run: |
+        cd ${{ github.workspace }}
         sudo ./opus-build
+    - name: Build pjsua2
+      run: |
+        cd ${{ github.workspace }}
         sudo ./build
+    - name: Finalize
+      run : |
+        echo "done building"
     - uses: actions/upload-artifact@v3
       with:
         name: lipjsua2-android
