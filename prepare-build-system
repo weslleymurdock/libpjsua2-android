@@ -21,19 +21,7 @@ if [ ! -d "$BUILD_DIR" ]
 then
   mkdir $BUILD_DIR
 fi
-
-if [ "$SETUP_PACKAGES" == "1" ]
-then
-    # Setup Java 8
-    apt-get update
-    apt-get purge -y openjdk*
-    apt-get install -y openjdk-8-jdk
-
-    DEPS="unzip git curl bzip2 binutils make autoconf openssl \
-          libssl-dev libopus0 libpcre3 libpcre3-dev build-essential nasm python2" 
-    sh -c "dpkg --add-architecture i386; apt-get update && apt-get -y upgrade && apt-get install -y ${DEPS}"
-fi
-
+ 
 if [ "$DOWNLOAD_NDK" == "1" ]
 then
 
@@ -148,30 +136,7 @@ then
         cd $BASEDIR
     fi
 fi
-
-if [ "$DOWNLOAD_SWIG" == "1" ]
-then
-    echo ""
-    echo "Downloading SWIG ${SWIG_VERSION} ..."
-    echo ""
-    cd $DOWNLOAD_DIR
-    curl -L -# -o swig.tar.gz "$SWIG_DOWNLOAD_URL" 2>&1
-    rm -rf "$SWIG_DIR_NAME"
-    echo "SWIG downloaded!"
-    echo "Extracting SWIG ..."
-    tar xzf swig.tar.gz && rm -rf swig.tar.gz
-    cd "$SWIG_DIR_NAME"
-    mkdir -p $SWIG_BUILD_OUT_PATH
-    echo "Configuring SWIG ..."
-    ./configure >> "$SWIG_BUILD_OUT_PATH/swig.log" 2>&1
-    echo "Compiling SWIG ..."
-    make >> "$SWIG_BUILD_OUT_PATH/swig.log" 2>&1
-    echo "Installing SWIG ..."
-    make install >> "$SWIG_BUILD_OUT_PATH/swig.log" 2>&1
-    cd ..
-    rm -rf "$SWIG_DIR_NAME"
-fi
-
+ 
 if [ "$DOWNLOAD_OPENSSL" == "1" ]
 then
     echo ""
