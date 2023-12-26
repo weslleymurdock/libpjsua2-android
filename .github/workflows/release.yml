@@ -1,16 +1,26 @@
-name: Build
+name: Release
 
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop", "main" ]
+    tags: 
+      - '*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3 
+    - name: release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: ${{ github.ref }}
+        tag_name: ${{ github.ref }}
+        body_path: CHANGELOG.md
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
@@ -42,10 +52,16 @@ jobs:
       run: |
         cd ${{ github.workspace }}
         sudo ./build
-    - name: Finalize
-      run : |
-        echo "done building"
-    - uses: actions/upload-artifact@v3
+    - name: Create release
+      run: |
+        sudo tar -czvf /home/lib
+    - name: upload android artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       with:
-        name: lipjsua2-android
-        path: /home/lib
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./lib.tar.gz
+        asset_name: lib.tar.gz
+        asset_content_type: application/gzip
+    
