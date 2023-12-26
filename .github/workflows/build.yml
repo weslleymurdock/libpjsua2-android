@@ -14,7 +14,7 @@ jobs:
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
-        sudo mkdir -p /home/lib
+        sudo mkdir -p /home/runner/libpjsua2
         sudo apt-get update
         sudo apt-get purge -y openjdk*
         sudo apt-get install -y openjdk-8-jdk

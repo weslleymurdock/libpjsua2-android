@@ -8,12 +8,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
     steps:
     - uses: actions/checkout@v3 
+    
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
-        sudo mkdir -p /home/lib
+        sudo mkdir -p /home/runner/libpjsua2/lib
         sudo apt-get update
         sudo apt-get purge -y openjdk*
         sudo apt-get install -y openjdk-8-jdk
@@ -41,15 +45,9 @@ jobs:
       run: |
         cd ${{ github.workspace }}
         sudo ./build
-    - name: Create release
-      run: |
-        sudo tar -czvf /home/lib
-    - name: upload android artifact
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        asset_path: ./lib.tar.gz
-        asset_name: lib.tar.gz
-        asset_content_type: application/gzip
+        files: /home/runner/libpjsua2/*
     
