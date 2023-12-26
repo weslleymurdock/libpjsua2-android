@@ -53,7 +53,7 @@ function getArchitecture {
         ARCHITECTURE="android-arm64"
     elif [ "$OPENSSL_TARGET_ABI" == "x86" ]
     then
-        # Use "no-asm" arg as specified in Merge Request #28 --- Use Only for x86 ARCH
+        # Use "no-asm" Only for x86 ARCH
         ARCHITECTURE="android-x86 no-asm"
     elif [ "$OPENSSL_TARGET_ABI" == "x86_64" ]
     then
@@ -115,10 +115,14 @@ do
 
     # Copy libs to final destination folder
     cp libssl.a $OUTPUT_LIB
-    cp libcrypto.a $OUTPUT_LIB
-    # Uncomment if you want .so libs (pjsip only needs the static libs)
+    cp libcrypto.a $OUTPUT_LIB 
     cp libssl.so $OUTPUT_LIB
-    cp libcrypto.so $OUTPUT_LIB
+    cp libcrypto.so $OUTPUT_LIB 
+    
+
+    mkdir -p "/home/lib/${arch}"
+    cp libssl.so "/home/lib/${arch}"
+    cp libcrypto.so "/home/lib/${arch}"
     echo "Build completed! Check output libraries in ${OPENSSL_OUTPUT_PATH}"
 done
 
