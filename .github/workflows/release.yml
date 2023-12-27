@@ -1,20 +1,33 @@
-name: Build
+name: Release
 
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop", "main" ]
+    tags: 
+      - '*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3 
+    - name: release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: ${{ github.ref }}
+        tag_name: ${{ github.ref }}
+        body_path: CHANGELOG.md
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
-        sudo mkdir -p /home/runner/libpjsua2
+        sudo mkdir -p /home/runner/libpjsua2/lib
         sudo apt-get update
         sudo apt-get purge -y openjdk*
         sudo apt-get install -y openjdk-8-jdk
@@ -42,10 +55,14 @@ jobs:
       run: |
         cd ${{ github.workspace }}
         sudo ./build
-    - name: Finalize
-      run : |
-        echo "done building"
-    - uses: actions/upload-artifact@v3
+        sudo tar -zcvf libpjsua2.tar.gz /home/runner/libpjsua2
+    - name: upload linux artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: lipjsua2-android
-        path: /home/lib
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./libpjsua2.tar.gz
+        asset_name: libpjsua2.tar.gz
+        asset_content_type: application/gzip
+    
