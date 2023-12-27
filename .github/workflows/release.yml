@@ -13,7 +13,17 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3 
-    
+    - name: release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: ${{ github.ref }}
+        tag_name: ${{ github.ref }}
+        body_path: CHANGELOG.md
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
@@ -45,9 +55,14 @@ jobs:
       run: |
         cd ${{ github.workspace }}
         sudo ./build
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
+        sudo tar -zcvf libpjsua2.tar.gz /home/runner/libpjsua2
+    - name: upload linux artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       with:
-        files: /home/runner/libpjsua2/*
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./libpjsua2.tar.gz
+        asset_name: libpjsua2.tar.gz
+        asset_content_type: application/gzip
     
