@@ -13,9 +13,13 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-java@v4
       with:
-        distribution: 'temurin'
-        java-version: '21'
+        distribution: 'adopt'
+        java-version: '8'
         check-latest: true
+      
+    - name: Show JAVA env var
+      run: echo $JAVA_HOME
+
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
