@@ -13,12 +13,7 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3 
-    - uses: actions/setup-java@v4
-      with:
-        distribution: 'adopt'
-        java-version: '8'
-        check-latest: true
-    - name: release
+    - name: release file
       uses: actions/create-release@v1
       id: create_release
       with:
@@ -29,6 +24,28 @@ jobs:
         body_path: CHANGELOG.md
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        check-latest: true
+    
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      with:
+        cmdline-tools-version: 11076708 
+    
+    - uses: nttld/setup-ndk@v1
+      id: setup-ndk
+      with:
+        ndk-version: r21e
+        add-to-path: true
+        link-to-sdk: true
+      env:
+        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+    
+    
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
