@@ -8,14 +8,15 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
         sudo mkdir -p /home/runner/libpjsua2
-        sudo apt-get update 
+        sudo apt-get update
+        sudo apt-get purge -y openjdk*
         sudo apt-get install -y openjdk-17-jdk openjdk-17-jre
         
         DEPS="unzip git curl bzip2 binutils make autoconf openssl \
