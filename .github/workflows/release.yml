@@ -43,6 +43,10 @@ jobs:
       run: |
         cd ${{ github.workspace }}
         sudo ./openssl-build-target-archs
+    - name: Build bcg729
+      run: |
+        cd ${{ github.workspace }}
+        sudo ./bcg729-build
     - name: Build openh264
       run: |
         cd ${{ github.workspace }}
