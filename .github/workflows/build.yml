@@ -17,7 +17,7 @@ jobs:
         sudo mkdir -p /home/runner/libpjsua2
         sudo apt-get update
         sudo apt-get purge -y openjdk*
-        sudo apt-get install -y openjdk-8-jdk
+        sudo apt-get install -y openjdk-17-jdk
 
         DEPS="unzip git curl bzip2 binutils make autoconf openssl \
           libssl-dev libopus0 libpcre3 libpcre3-dev build-essential nasm python2 swig" 
