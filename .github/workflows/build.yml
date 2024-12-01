@@ -63,32 +63,32 @@ jobs:
       env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
-    # - name: Build openh264
-    #   run: |
-    #     cd ${{ github.workspace }}
-    #     sudo ./openh264-build-target-archs
-    #   env:
-    #       ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+    - name: Build openh264
+      run: |
+        cd ${{ github.workspace }}
+        sudo ./openh264-build-target-archs
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
-    # - name: Build opus
-    #   run: |
-    #     cd ${{ github.workspace }}
-    #     sudo ./opus-build
-    #   env:
-    #       ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+    - name: Build opus
+      run: |
+        cd ${{ github.workspace }}
+        sudo ./opus-build
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
         
-    # - name: Build pjsua2
-    #   run: |
-    #     cd ${{ github.workspace }}
-    #     sudo ./build
-    #   env:
-    #       ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-
-    # - name: Finalize
-    #   run : |
-    #     echo "done building"
+    - name: Build pjsua2
+      run: |
+        cd ${{ github.workspace }}
+        sudo ./build
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
     
-    # - uses: actions/upload-artifact@v3
-    #   with:
-    #     name: lipjsua2-android
-    #     path: /home/lib
+    - name: Finalize
+      run : |
+        echo "done building"
+    
+    - uses: actions/upload-artifact@v3
+      with:
+        name: lipjsua2-android
+        path: /home/lib
