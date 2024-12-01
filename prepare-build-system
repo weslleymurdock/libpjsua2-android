@@ -75,9 +75,9 @@ fi
 
 if [ "$DOWNLOAD_ANDROID_APIS" == "1" ]
 then
-    echo "Exporting ANDROID_HOME"
-    export ANDROID_HOME=$DOWNLOAD_DIR/$SDK_DIR_NAME
-    SDK_MANAGER=$ANDROID_HOME/$CMD_TOOLS/$CMD_TOOLS_DIR_NAME/bin/sdkmanager
+    #echo "Exporting ANDROID_HOME"
+    #export ANDROID_HOME=$DOWNLOAD_DIR/$SDK_DIR_NAME
+    SDK_MANAGER=$(which sdkmanager)
     echo "Downloading Android Platforms"
     for api in ${SETUP_ANDROID_APIS[@]}
     do
