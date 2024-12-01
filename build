@@ -183,8 +183,8 @@ function buildPjSip {
         cp -v ${OPENSSL_BUILD_OUT_PATH}/libs/${arch}/lib/libcrypto.so ${FINAL_BUILD_LIB}/${arch}/
     fi
 
-     if [ -d ${BCG729_BUILD_OUT_PATH}/libs${arch}/lib/ ]; then
-        echo "Copying OpenSSL .so libraries to final build directory ..."
+     if [ -d ${BCG729_BUILD_OUT_PATH}/libs/${arch}/lib/ ]; then
+        echo "Copying bcg729 .so libraries to final build directory ..."
         cp -v ${BCG729_BUILD_OUT_PATH}/libs/${arch}/lib/libbcg729.so ${FINAL_BUILD_LIB}/${arch}/
     fi
 
