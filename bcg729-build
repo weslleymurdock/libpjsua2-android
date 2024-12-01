@@ -39,7 +39,7 @@ do
     $ANDROID_NDK_HOME/build/ndk-build APP_PLATFORM=android-${TARGET_ANDROID_API} APP_ABI=$arch NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk >> "${LOG_PATH}/$arch.log" 2>&1
 
     echo "Copying bcg729 files for target arch $arch ..."
-    cp -r $LIB_BUILD_PATH/$arch* $LIB_PATH
+    cp -r -v $LIB_BUILD_PATH/$arch* $LIB_PATH
     
     cd $LIB_PATH/$arch
     mkdir -p lib
