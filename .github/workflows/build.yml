@@ -40,7 +40,7 @@ jobs:
         
         DEPS="unzip git curl bzip2 binutils make autoconf openssl \
           libssl-dev libopus0 libpcre3 libpcre3-dev build-essential nasm python2 swig" 
-        sudo sh -c "dpkg --add-architecture i386; apt-get update && apt-get -y upgrade && apt-get install -y ${DEPS}"
+        sudo sh -c "dpkg --add-architecture i386; apt-get update  && apt-get install -y ${DEPS}"
     
     - name: Prepare build system
       run: |
@@ -83,7 +83,7 @@ jobs:
         sudo ./build
       env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-          
+
     - name: Finalize
       run : |
         echo "done building"

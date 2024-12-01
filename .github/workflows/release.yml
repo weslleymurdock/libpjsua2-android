@@ -54,7 +54,7 @@ jobs:
 
         DEPS="unzip git curl bzip2 binutils make autoconf openssl \
           libssl-dev libopus0 libpcre3 libpcre3-dev build-essential nasm python2 swig" 
-        sudo sh -c "dpkg --add-architecture i386; apt-get update && apt-get -y upgrade && apt-get install -y ${DEPS}"
+        sudo sh -c "dpkg --add-architecture i386; apt-get update && apt-get install -y ${DEPS}"
     - name: Prepare build system
       run: |
         cd ${{ github.workspace }}
@@ -97,7 +97,7 @@ jobs:
         sudo tar -zcvf libpjsua2.tar.gz /home/runner/libpjsua2
       env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-          
+
     - name: upload linux artifact
       uses: actions/upload-release-asset@v1
       env:
