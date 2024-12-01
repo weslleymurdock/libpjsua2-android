@@ -59,27 +59,45 @@ jobs:
       run: |
         cd ${{ github.workspace }}
         sudo ./prepare-build-system
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
     - name: Build openssl
       run: |
         cd ${{ github.workspace }}
         sudo ./openssl-build-target-archs
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
     - name: Build bcg729
       run: |
         cd ${{ github.workspace }}
         sudo ./bcg729-build
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
     - name: Build openh264
       run: |
         cd ${{ github.workspace }}
         sudo ./openh264-build-target-archs
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
     - name: Build opus
       run: |
         cd ${{ github.workspace }}
         sudo ./opus-build
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
     - name: Build pjsua2
       run: |
         cd ${{ github.workspace }}
         sudo ./build
         sudo tar -zcvf libpjsua2.tar.gz /home/runner/libpjsua2
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          
     - name: upload linux artifact
       uses: actions/upload-release-asset@v1
       env:

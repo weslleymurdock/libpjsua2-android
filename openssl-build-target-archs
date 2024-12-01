@@ -19,14 +19,14 @@ function initialSetup {
 }
 
 function setupPathsAndExports {
-    NDK_PATH="$DOWNLOAD_DIR/${NDK_DIR_NAME}"
+    #NDK_PATH="$DOWNLOAD_DIR/${NDK_DIR_NAME}"
     LIB_PATH="${OPENSSL_BUILD_OUT_PATH}/libs"
     LOG_PATH="${OPENSSL_BUILD_OUT_PATH}/logs"
 
-    # Export ANDROID_NDK_HOME env var
-    export ANDROID_NDK_HOME=$NDK_PATH
+    # # Export ANDROID_NDK_HOME env var
+    # export ANDROID_NDK_HOME=$NDK_PATH
     # Add toolchains bin directory to PATH
-    TOOLCHAIN_PATH="$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64"
+    TOOLCHAIN_PATH="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64"
     # for some reason it does not need to be exported
     PATH=$TOOLCHAIN_PATH/bin:$PATH
 }

@@ -11,8 +11,8 @@ set -e
 ##############################################################################
 
 function initialSetup {
-    NDK_PATH="$DOWNLOAD_DIR/$NDK_DIR_NAME"
-    SDK_TOOLS_PATH="$DOWNLOAD_DIR/${SDK_DIR_NAME}"/tools
+    #NDK_PATH="$DOWNLOAD_DIR/$NDK_DIR_NAME"
+    SDK_TOOLS_PATH="$ANDROID_HOME"/tools
     OPENH264_SRC_PATH="$DOWNLOAD_DIR/${OPENH264_DIR_NAME}"
     OPENH264_TMP_DIR="/tmp/openh264"
 }
@@ -21,8 +21,8 @@ function setupPathsAndExports {
     LIB_PATH="${OPENH264_BUILD_OUT_PATH}/libs"
     LOG_PATH="${OPENH264_BUILD_OUT_PATH}/logs"
 
-    export ANDROID_NDK_HOME=$NDK_PATH
-    export ANDROID_HOME=$DOWNLOAD_DIR/${SDK_DIR_NAME}
+    #export ANDROID_NDK_HOME=$NDK_PATH
+    #export ANDROID_HOME=$DOWNLOAD_DIR/${SDK_DIR_NAME}
 
     export PATH=${SDK_TOOLS_PATH}:$PATH
 }
@@ -93,7 +93,7 @@ do
     #change default output DIR for make install
     sed -i "s*PREFIX=/usr/local*PREFIX=${LIB_PATH}/${arch}*g" Makefile
     
-    ARGS="APP_PLATFORM=android-${TARGET_ANDROID_API} OS=android NDKROOT=${NDK_PATH} NDK_TOOLCHAIN_VERSION=clang NDKLEVEL=${OPENH264_TARGET_NDK_LEVEL} "
+    ARGS="APP_PLATFORM=android-${TARGET_ANDROID_API} OS=android NDKROOT=${ANDROID_NDK_HOME} NDK_TOOLCHAIN_VERSION=clang NDKLEVEL=${OPENH264_TARGET_NDK_LEVEL} "
     ARGS="${ARGS}TARGET=android-${TARGET_ANDROID_API} ARCH="
     # Add final architecture dependent info
     finalizeArgs $arch
