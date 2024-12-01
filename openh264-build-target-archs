@@ -96,7 +96,8 @@ do
     #change default output DIR for make install
     sed -i "s*PREFIX=/usr/local*PREFIX=${LIB_PATH}/${arch}*g" Makefile
     echo "finish sed Makefile"
-    ARGS="APP_PLATFORM=android-${TARGET_ANDROID_API} OS=android NDKROOT=${ANDROID_NDK_HOME} NDK_TOOLCHAIN_VERSION=clang NDKLEVEL=${OPENH264_TARGET_NDK_LEVEL} "
+    #ARGS="APP_PLATFORM=android-${TARGET_ANDROID_API} OS=android NDKROOT=${ANDROID_NDK_HOME} NDK_TOOLCHAIN_VERSION=clang NDKLEVEL=${OPENH264_TARGET_NDK_LEVEL} "
+    ARGS="APP_PLATFORM=android-${TARGET_ANDROID_API} OS=android NDKROOT=/opt/hostedtoolcache/ndk/r21e/x64 NDK_TOOLCHAIN_VERSION=clang NDKLEVEL=${OPENH264_TARGET_NDK_LEVEL} "
     ARGS="${ARGS}TARGET=android-${TARGET_ANDROID_API} ARCH="
     # Add final architecture dependent info
     finalizeArgs $arch
