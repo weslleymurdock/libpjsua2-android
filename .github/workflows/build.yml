@@ -11,40 +11,83 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    
+    - uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        check-latest: true
+    
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      with:
+        cmdline-tools-version: 11076708 
+        packages: platforms;android-21 tools platform-tools build-tools;34.0.0
+    
+    - uses: nttld/setup-ndk@v1
+      id: setup-ndk
+      with:
+        ndk-version: r21e
+        add-to-path: true
+        link-to-sdk: true
+      env:
+        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
-        sudo mkdir -p /home/runner/libpjsua2
-        sudo apt-get update
-        sudo apt-get purge -y openjdk*
-        sudo apt-get install -y openjdk-8-jdk
-
+        sudo mkdir -p /home/runner/libpjsua2 
+        
         DEPS="unzip git curl bzip2 binutils make autoconf openssl \
           libssl-dev libopus0 libpcre3 libpcre3-dev build-essential nasm python2 swig" 
-        sudo sh -c "dpkg --add-architecture i386; apt-get update && apt-get -y upgrade && apt-get install -y ${DEPS}"
+        sudo sh -c "dpkg --add-architecture i386; apt-get update  && apt-get install -y ${DEPS}"
+    
     - name: Prepare build system
       run: |
         cd ${{ github.workspace }}
         sudo ./prepare-build-system
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
     - name: Build openssl
       run: |
         cd ${{ github.workspace }}
         sudo ./openssl-build-target-archs
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
+    - name: Build bcg729
+      run: |
+        cd ${{ github.workspace }}
+        sudo ./bcg729-build
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
     - name: Build openh264
       run: |
         cd ${{ github.workspace }}
         sudo ./openh264-build-target-archs
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
     - name: Build opus
       run: |
         cd ${{ github.workspace }}
         sudo ./opus-build
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+        
     - name: Build pjsua2
       run: |
         cd ${{ github.workspace }}
         sudo ./build
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+    
     - name: Finalize
       run : |
         echo "done building"
+    
     - uses: actions/upload-artifact@v3
       with:
         name: lipjsua2-android
