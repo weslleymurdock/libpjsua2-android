@@ -18,10 +18,10 @@ set -e
 for arch in "${TARGET_ARCHS[@]}"
 do
     mkdir -p $OPENH264_BUILD_OUT_PATH/$arch/lib
-    mkdir -p $OPENH264_BUILD_OUT_PATH/$arch/include
+    mkdir -p $OPENH264_BUILD_OUT_PATH/$arch/include/wels
 
     # Copiar os arquivos de cabeçalho
-    cp -r -v $DOWNLOAD_DIR/$OPENH264_DIR_NAME/codec/common/inc $OPENH264_BUILD_OUT_PATH/$arch/include
+    cp -r -v $DOWNLOAD_DIR/$OPENH264_DIR_NAME/api/wels $OPENH264_BUILD_OUT_PATH/$arch/include/wels
 
     # Fazer o download e extrair os arquivos de acordo com a arquitetura
     if [ "$arch" == "armeabi-v7a" ]
