@@ -58,20 +58,17 @@ build_for_arch() {
 
     # Limpar compilações anteriores
     cd "$OPENH264_SOURCE_DIR" || exit
-    ls -R . 
-    echo ""
-    echo $pwd
+     
     if make clean >/dev/null 2>&1; then
         echo "Successfull cleanup"
     else
         echo "Target 'clean' not found, continuing..."
     fi
-
-    # Compilar
-    make OS=android NDKROOT=$NDK_PATH TARGET=$TARGET NDKLEVEL=$API_LEVEL || exit
-
-    # Instalar
-    make install PREFIX=$BUILD_DIR || exit
+    
+    echo "Building"
+    make OS=android NDKROOT=$NDK_PATH TARGET=$TARGET NDKLEVEL=$API_LEVEL 
+    echo "Install"
+    make install PREFIX=$BUILD_DIR 
 
     # Copiar os resultados para o diretório de instalação
     cp -r "$BUILD_DIR/lib" "$OUTPUT_DIR/"
