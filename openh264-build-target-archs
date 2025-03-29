@@ -60,8 +60,10 @@ build_for_arch() {
     mkdir -p "$OUTPUT_DIR"
 
     # Exportar variáveis do NDK e configuração do Clang
-    export CC="$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
-    export CXX="$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+    #export CC="$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
+    export CC=`which clang`
+    #export CXX="$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+    export CXX=`which clang++`
     export NDKROOT=$NDK_PATH
     export CFLAGS
     export LDFLAGS

@@ -31,6 +31,13 @@ jobs:
         add-to-path: true
         link-to-sdk: true
       
+    - name: Debug NDK
+      shell: bash
+      run: |
+        ls -R $ANDROID_NDK_HOME
+      env: 
+        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+        
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
