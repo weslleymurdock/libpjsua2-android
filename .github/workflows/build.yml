@@ -37,7 +37,7 @@ jobs:
         ls -R $ANDROID_NDK_HOME
       env: 
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-        
+
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
@@ -54,7 +54,7 @@ jobs:
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
      
-    - name: Download openh264
+    - name: Build openh264
       run: |
         cd ${{ github.workspace }}
         sudo ./openh264-build-target-archs

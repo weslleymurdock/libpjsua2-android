@@ -35,13 +35,13 @@ build_for_arch() {
             ;;
         "x86")
             TARGET=x86
-            ABI="x86"
+            ABI="x86" 
             CFLAGS="-march=i686 -D__ANDROID_API__=$API_LEVEL"
             LDFLAGS="-march=i686 -D__ANDROID_API__=$API_LEVEL"
             ;;
         "x86_64")
             TARGET=x86_64
-            ABI="x86_64"
+            ABI="x86_64" 
             CFLAGS="-march=x86-64 -D__ANDROID_API__=$API_LEVEL"
             LDFLAGS="-march=x86-64 -D__ANDROID_API__=$API_LEVEL"
             ;;
@@ -61,23 +61,20 @@ build_for_arch() {
 
     # Exportar variáveis do NDK e configuração do Clang
     #export CC="$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
-    export CC=`which clang`
     #export CXX="$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
-    export CXX=`which clang++`
+    export CC="/opt/hostedtoolcache/ndk/r28/x64/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
+    export CXX="/opt/hostedtoolcache/ndk/r28/x64/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
     export NDKROOT=$NDK_PATH
     export CFLAGS
     export LDFLAGS
-
+    
     # Limpar compilações anteriores (ignorar erros caso não exista compilação anterior)
     cd "$OPENH264_SOURCE_DIR"  
-    if make clean >/dev/null 2>&1; then
-        echo "Limpeza concluída para $ARCH."
-    else
-        echo "Nenhuma compilação anterior encontrada para $ARCH, continuando..."
-    fi
+    make clean || echo "nothing to clean"
+     
 
     # Compilar a biblioteca
-    make OS=android NDKROOT=$NDK_PATH TARGET=$TARGET NDKLEVEL=$API_LEVEL  
+    make APP_PLATFORM=android-28 OS=android NDKROOT=$NDK_PATH TARGET=$TARGET NDKLEVEL=$API_LEVEL NDK_TOOLCHAIN_VERSION=clang  
 
     # Instalar a biblioteca
     make install PREFIX=$BUILD_DIR  
