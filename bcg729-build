@@ -18,7 +18,6 @@ cd $BCG729_PATH
 
 # Patching Android.mk
 echo "Patching bcg729 Android.mk ..."
-echo "there"
 ADD_TO_LOCAL_SRC_FILES=$(cat <<-END
 src/utils.c \\
 src/cng.c \\
@@ -26,7 +25,8 @@ src/dtx.c \\
 src/vad.c \\
 END
 )
-echo "here"
+
+# Certifique-se de usar aspas duplas para preservar quebras de linha e caracteres especiais
 sed -e "s|src/utils\.c|${ADD_TO_LOCAL_SRC_FILES}|g" -i Android.mk
 
 cat Android.mk
