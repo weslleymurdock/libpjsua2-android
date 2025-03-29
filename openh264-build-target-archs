@@ -58,6 +58,9 @@ build_for_arch() {
 
     # Limpar compilações anteriores
     cd "$OPENH264_SOURCE_DIR" || exit
+    ls -R . 
+    echo ""
+    echo pwd
     if make clean >/dev/null 2>&1; then
         echo "Successfull cleanup"
     else
