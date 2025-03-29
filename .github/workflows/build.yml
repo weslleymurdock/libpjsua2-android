@@ -48,6 +48,13 @@ jobs:
         sudo ./prepare-build-system
       env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+   
+    - name: Build bcg729
+      run: |
+        cd ${{ github.workspace }}
+        sudo ./bcg729-build
+      env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
     - name: Build openssl
       run: |
@@ -56,12 +63,6 @@ jobs:
       env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
-    - name: Build bcg729
-      run: |
-        cd ${{ github.workspace }}
-        sudo ./bcg729-build
-      env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
     - name: Build openh264
       run: |
