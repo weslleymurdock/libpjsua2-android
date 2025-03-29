@@ -40,7 +40,8 @@ do
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm64.6.so.bz2
         bunzip2 -k openh264-${arch}.bz2
     fi
-    mv libopenh264*.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
+    ls -R openh264-${arch}
+    #mv libopenh264*.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
 done
 
 echo "Finished downloading OpenH264! Check output folder: ${OPENH264_BUILD_OUT_PATH}"
