@@ -10,7 +10,7 @@ set -e
 # settings
 NDK_PATH=/opt/hostedtoolcache/ndk/r28/x64  
 INSTALL_DIR=$OPENH264_BUILD_OUT_PATH   
-OPENH264_SOURCE_DIR=$OPENH264_DIR_NAME   
+OPENH264_SOURCE_DIR=$DOWNLOAD_DIR/$OPENH264_DIR_NAME   
 API_LEVEL=28  
 TARGET_ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 
@@ -60,7 +60,7 @@ build_for_arch() {
     cd "$OPENH264_SOURCE_DIR" || exit
     ls -R . 
     echo ""
-    echo pwd
+    echo $pwd
     if make clean >/dev/null 2>&1; then
         echo "Successfull cleanup"
     else
