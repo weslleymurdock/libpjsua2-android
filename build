@@ -148,13 +148,13 @@ function buildPjSip {
     fi
     sed -i'' -e 's/xamarin/maui/g' "${PJSUA_BASE_DIR}/csharp/Makefile"
     
-    APP_PLATFORM=android-${TARGET_ANDROID_API} TARGET_ABI=$arch ./configure-android "${args[@]}" >> "${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
+    APP_PLATFORM=android-${TARGET_ANDROID_API} TARGET_ABI=$arch ./configure-android "${args[@]}" #>> "${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
 
-    #make dep >>"${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
+    make dep #>>"${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
     #make clean >>"${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
-    #make >>"${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
+    make #>>"${FINAL_BUILD_LOGS}/${arch}.log" 2>&1
 
-    make dep && make clean && make
+    #make dep && make clean && make
 
     echo "Compile PJSUA for arch $arch ..."
     cd "${PJSUA_BASE_DIR}"
