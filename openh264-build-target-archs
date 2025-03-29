@@ -4,20 +4,16 @@ set -e
 
 # Source variables from config.conf file
 . config.conf
+   
+NDK_PATH=/opt/hostedtoolcache/ndk/r28/x64 
+INSTALL_DIR=$OPENH264_BUILD_OUT_PATH           
+OPENH264_SOURCE_DIR=$DOWNLOAD_DIR/$OPENH264_DIR_NAME   
+API_LEVEL=28                               
+TARGET_ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")  
  
- 
-  
-# Configurações gerais
-NDK_PATH=/opt/hostedtoolcache/ndk/r28/x64  # Substitua pelo caminho do NDK r28
-INSTALL_DIR=$OPENH264_BUILD_OUT_PATH           # Diretório onde os arquivos compilados serão armazenados
-OPENH264_SOURCE_DIR=$DOWNLOAD_DIR/$OPENH264_DIR_NAME  # Caminho para o código-fonte da OpenH264
-API_LEVEL=28                               # Nível da API do Android
-TARGET_ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")  # Arquiteturas suportadas
-
-# Preparação do diretório de instalação
 mkdir -p "${INSTALL_DIR}"
 
-# Função para compilar a biblioteca para uma arquitetura específica
+ 
 build_for_arch() {
     ARCH=$1
     case $ARCH in
@@ -52,40 +48,34 @@ build_for_arch() {
     esac
 
     echo "Compilando para $ARCH..."
-
-    # Diretórios de saída para a arquitetura atual
+ 
     BUILD_DIR=$OPENH264_SOURCE_DIR/build/$ARCH
     OUTPUT_DIR=$INSTALL_DIR/$ARCH
     mkdir -p "$BUILD_DIR"
     mkdir -p "$OUTPUT_DIR"
 
-    # Exportar variáveis do NDK e configuração do Clang
-    #export CC="$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
-    #export CXX="$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
-    export CC="/opt/hostedtoolcache/ndk/r28/x64/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
-    export CXX="/opt/hostedtoolcache/ndk/r28/x64/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+    export CC="${NDK_PATH}/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
+    export CXX="${NDK_PATH}/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
     export NDKROOT=$NDK_PATH
     export CFLAGS
     export LDFLAGS
+    export CFLAGS="--sysroot=${NDK_PATH}/toolchains/llvm/prebuilt/linux-x86_64/sysroot ${CFLAGS}"
+    export LDFLAGS="--sysroot=${NDK_PATH}/toolchains/llvm/prebuilt/linux-x86_64/sysroot ${LDFLAGS}"
     
-    # Limpar compilações anteriores (ignorar erros caso não exista compilação anterior)
     cd "$OPENH264_SOURCE_DIR"  
+    
     make clean || echo "nothing to clean"
      
-
-    # Compilar a biblioteca
-    make APP_PLATFORM=android-28 OS=android NDKROOT=$NDK_PATH TARGET=$TARGET NDKLEVEL=$API_LEVEL NDK_TOOLCHAIN_VERSION=clang  
-
-    # Instalar a biblioteca
+ 
+    make APP_PLATFORM=android-28 OS=android NDKROOT=$NDK_PATH TARGET=$TARGET NDKLEVEL=$API_LEVEL NDK_TOOLCHAIN_VERSION=clang APP_STL=c++_static 
+ 
     make install PREFIX=$BUILD_DIR  
-
-    # Copiar os resultados para o diretório de instalação final
+ 
     cp -r "$BUILD_DIR/lib" "$OUTPUT_DIR/"
     cp -r "$BUILD_DIR/include" "$OUTPUT_DIR/"
     echo "Arquivos instalados para $ARCH em $OUTPUT_DIR"
 }
-
-# Compilar para cada arquitetura no array TARGET_ARCHS
+ 
 for ARCH in "${TARGET_ARCHS[@]}"; do
     build_for_arch "$ARCH"
 done
