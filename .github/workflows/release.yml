@@ -35,25 +35,22 @@ jobs:
       uses: android-actions/setup-android@v3
       with:
         cmdline-tools-version: 11076708 
-        packages: platforms;android-21 tools platform-tools build-tools;34.0.0
+        packages: platforms;android-28 tools platform-tools build-tools;34.0.0
         
     - uses: nttld/setup-ndk@v1
       id: setup-ndk
       with:
-        ndk-version: r21e
+        ndk-version: r28
         add-to-path: true
         link-to-sdk: true
-      env:
-        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-    
-    
+         
     - name: Prepare Environment
       run: |
         cd ${{ github.workspace }}
         sudo mkdir -p /home/runner/libpjsua2/lib S
 
         DEPS="unzip git curl bzip2 binutils make autoconf openssl \
-          libssl-dev libopus0 libpcre3 libpcre3-dev build-essential nasm python2 swig" 
+          libssl-dev libopus0 libpcre3 libpcre3-dev build-essential nasm python3 swig" 
         sudo sh -c "dpkg --add-architecture i386; apt-get update && apt-get install -y ${DEPS}"
     - name: Prepare build system
       run: |

@@ -20,7 +20,7 @@ cd $OPUS_PATH
 # Download Android.mk
 echo "Downloading Android.mk file from PjSip website ..."
 mkdir -p jni
-(cd jni && curl -O https://trac.pjsip.org/repos/raw-attachment/ticket/1904/Android.mk)
+(cd jni && curl --insecure -O https://trac.pjsip.org/repos/raw-attachment/ticket/1904/Android.mk)
 
 # Build Opus
 echo "Building Opus $OPUS_VERSION ..."

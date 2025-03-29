@@ -22,15 +22,20 @@ jobs:
       uses: android-actions/setup-android@v3
       with:
         cmdline-tools-version: 11076708 
-        packages: platforms;android-21 tools platform-tools build-tools;34.0.0
+        packages: platforms;android-28 tools platform-tools build-tools;34.0.0
     
     - uses: nttld/setup-ndk@v1
       id: setup-ndk
       with:
-        ndk-version: r21e
+        ndk-version: r28
         add-to-path: true
         link-to-sdk: true
-      env:
+      
+    - name: Debug NDK
+      shell: bash
+      run: |
+        ls -R $ANDROID_NDK_HOME
+      env: 
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
     - name: Prepare Environment
@@ -39,7 +44,7 @@ jobs:
         sudo mkdir -p /home/runner/libpjsua2 
         
         DEPS="unzip git curl bzip2 binutils make autoconf openssl \
-          libssl-dev libopus0 libpcre3 libpcre3-dev build-essential nasm python2 swig" 
+          libssl-dev libopus0 libpcre3 libpcre3-dev build-essential nasm python3 swig" 
         sudo sh -c "dpkg --add-architecture i386; apt-get update  && apt-get install -y ${DEPS}"
     
     - name: Prepare build system
@@ -47,12 +52,12 @@ jobs:
         cd ${{ github.workspace }}
         sudo ./prepare-build-system
       env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-
-    - name: Build openssl
+        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+     
+    - name: Build openh264
       run: |
         cd ${{ github.workspace }}
-        sudo ./openssl-build-target-archs
+        sudo ./openh264-build-target-archs
       env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
@@ -63,12 +68,14 @@ jobs:
       env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
-    - name: Build openh264
+    - name: Build openssl
       run: |
         cd ${{ github.workspace }}
-        sudo ./openh264-build-target-archs
+        sudo ./openssl-build-target-archs
       env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
+
 
     - name: Build opus
       run: |
@@ -88,7 +95,7 @@ jobs:
       run : |
         echo "done building"
     
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: lipjsua2-android
         path: /home/lib

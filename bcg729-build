@@ -18,17 +18,20 @@ cd $BCG729_PATH
 
 # Patching Android.mk
 echo "Patching bcg729 Android.mk ..."
-echo "there"
 ADD_TO_LOCAL_SRC_FILES=$(cat <<-END
-src\/utils\.c \\
-src\/cng\.c \\
-src\/dtx\.c \\
-src\/vad\.c
+src/utils.c \\
+src/cng.c \\
+src/dtx.c \\
+src/vad.c \\
 END
 )
-echo "here"
-sed -e "s/src\/utils\.c/${ADD_TO_LOCAL_SRC_FILES}/g" -i Android.mk
+ 
+ADD_TO_LOCAL_SRC_FILES=$(echo "$ADD_TO_LOCAL_SRC_FILES" | tr '\n' ' ')
 
+sed -e "s|src/utils\.c|${ADD_TO_LOCAL_SRC_FILES}|g" -i Android.mk
+
+
+cat Android.mk
 # Build bcg729
 echo "Building bcg729 $BCG729_VERSION ..."
 
@@ -36,7 +39,7 @@ for arch in "${TARGET_ARCHS[@]}"
 do
     echo "Building bcg729 for $arch ..."
     cd $BCG729_PATH
-    $ANDROID_NDK_HOME/build/ndk-build APP_PLATFORM=android-${TARGET_ANDROID_API} APP_ABI=$arch NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk >> "${LOG_PATH}/$arch.log" 2>&1
+    $ANDROID_NDK_HOME/build/ndk-build APP_PLATFORM=android-${TARGET_ANDROID_API} APP_ABI=$arch NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk #>> "${LOG_PATH}/$arch.log" 2>&1
 
     echo "Copying bcg729 files for target arch $arch ..."
     cp -r -v $LIB_BUILD_PATH/$arch* $LIB_PATH
