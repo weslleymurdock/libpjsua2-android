@@ -28,13 +28,14 @@ do
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm.6.so.bz2
         bunzip2 openh264-${arch}.bz2
- 
+        ls -R .
         mv ./libopenh264-2.3.0-android-arm.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
         
     elif [ "$arch" == "x86" ]
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x86.6.so.bz2
         bunzip2 openh264-${arch}.bz2
+        ls -R .
 
         mv ./libopenh264-2.3.0-android-x86.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
         
@@ -42,12 +43,14 @@ do
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x64.6.so.bz2
         bunzip2 -k openh264-${arch}.bz2
+        ls -R .
 
         mv ./libopenh264-2.3.0-android-x64.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
     elif [ "$arch" == "arm64-v8a" ]
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm64.6.so.bz2
         bunzip2 openh264-${arch}.bz2
+        ls -R .
 
         mv ./libopenh264-2.3.0-android-arm64.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
     fi
