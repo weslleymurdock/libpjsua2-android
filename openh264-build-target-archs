@@ -15,32 +15,103 @@ set -e
 ############################        MAIN          ############################
 ##############################################################################
 
-for arch in "${TARGET_ARCHS[@]}"
-do
-    mkdir -p $OPENH264_BUILD_OUT_PATH/$arch/lib
-    mkdir -p $OPENH264_BUILD_OUT_PATH/$arch/include/wels
+# for arch in "${TARGET_ARCHS[@]}"
+# do
+#     mkdir -p $OPENH264_BUILD_OUT_PATH/$arch/lib
+#     mkdir -p $OPENH264_BUILD_OUT_PATH/$arch/include/wels
 
-    # Copiar os arquivos de cabeçalho
-    cp -r -v $DOWNLOAD_DIR/$OPENH264_DIR_NAME/codec/api/wels $OPENH264_BUILD_OUT_PATH/$arch/include/wels
+#     # Copiar os arquivos de cabeçalho
+#     cp -r -v $DOWNLOAD_DIR/$OPENH264_DIR_NAME/codec/api/wels $OPENH264_BUILD_OUT_PATH/$arch/include/wels
 
-    # Fazer o download e extrair os arquivos de acordo com a arquitetura
-    if [ "$arch" == "armeabi-v7a" ]
-    then
-        curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm.6.so.bz2
-    elif [ "$arch" == "x86" ]
-    then
-        curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x86.6.so.bz2
-    elif [ "$arch" == "x86_64" ]
-    then
-        curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x64.6.so.bz2
-    elif [ "$arch" == "arm64-v8a" ]
-    then
-        curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm64.6.so.bz2    
-    fi
-    bzcat openh264-${arch}.bz2 > libopenh264.so
-    mv ./libopenh264.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
+#     # Fazer o download e extrair os arquivos de acordo com a arquitetura
+#     if [ "$arch" == "armeabi-v7a" ]
+#     then
+#         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm.6.so.bz2
+#     elif [ "$arch" == "x86" ]
+#     then
+#         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x86.6.so.bz2
+#     elif [ "$arch" == "x86_64" ]
+#     then
+#         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x64.6.so.bz2
+#     elif [ "$arch" == "arm64-v8a" ]
+#     then
+#         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm64.6.so.bz2    
+#     fi
+#     bzcat openh264-${arch}.bz2 > libopenh264.so
+#     mv ./libopenh264.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
+# done
+#!/bin/bash
+
+# Configurações
+NDK_PATH=/opt/hostedtoolcache/ndk/r28/x64  # Substitua pelo caminho correto do NDK
+INSTALL_DIR=$OPENH264_BUILD_OUT_PATH  # Diretório onde os arquivos serão armazenados
+OPENH264_SOURCE_DIR=$OPENH264_DIR_NAME  # Diretório do código-fonte da OpenH264
+API_LEVEL=28  # Nível da API do Android
+TARGET_ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
+
+# Preparação
+mkdir -p "${INSTALL_DIR}"
+# Função de compilação por arquitetura
+build_for_arch() {
+
+    ARCH=$1
+    case $ARCH in
+        "armeabi-v7a")
+            TARGET=arm
+            ABI="armeabi-v7a"
+            ;;
+        "arm64-v8a")
+            TARGET=arm64
+            ABI="arm64-v8a"
+            ;;
+        "x86")
+            TARGET=x86
+            ABI="x86"
+            ;;
+        "x86_64")
+            TARGET=x86_64
+            ABI="x86_64"
+            ;;
+        *)
+            echo "Arquitetura desconhecida: $ARCH"
+            exit 1
+            ;;
+    esac
+
+    echo "Compilando para $ARCH..."
+
+    # Diretórios de saída para a arquitetura atual
+    BUILD_DIR=$OPENH264_SOURCE_DIR/build/$ARCH
+    OUTPUT_DIR=$INSTALL_DIR/$ARCH
+    mkdir -p "$BUILD_DIR"
+    mkdir -p "$OUTPUT_DIR"
+
+    # Exportar variáveis do NDK
+    export NDKROOT=$NDK_PATH
+    export TARGET=$TARGET
+    export NDKLEVEL=$API_LEVEL
+
+    # Limpar compilações anteriores
+    cd "$OPENH264_SOURCE_DIR" || exit
+    make clean || exit
+
+    # Compilar
+    make OS=android NDKROOT=$NDK_PATH TARGET=$TARGET NDKLEVEL=$API_LEVEL || exit
+
+    # Instalar
+    make install PREFIX=$BUILD_DIR || exit
+
+    # Copiar os resultados para o diretório de instalação
+    cp -r "$BUILD_DIR/lib" "$OUTPUT_DIR/"
+    cp -r "$BUILD_DIR/include" "$OUTPUT_DIR/"
+    echo "Arquivos instalados para $ARCH em $OUTPUT_DIR"
+}
+
+# Compilar para cada arquitetura
+for ARCH in "${TARGET_ARCHS[@]}"; do
+    build_for_arch "$ARCH"
 done
-
-echo "Finished downloading OpenH264! Check output folder: ${OPENH264_BUILD_OUT_PATH}"
+ 
+echo "Finished building OpenH264! Check output folder: ${OPENH264_BUILD_OUT_PATH}"
 
 set +e
