@@ -30,57 +30,57 @@ do
         bunzip2 -k openh264-${arch}.bz2
 
         # Exibir todos os arquivos no diretório atual após a extração
-        echo "Lista de arquivos no diretório atual (após extração, armeabi-v7a):"
-        find . -type f
+        #echo "Lista de arquivos no diretório atual (após extração, armeabi-v7a):"
+        #find . -type f
 
-        if [ -f libopenh264-2.3.0-android-arm.6.so ]; then
-            echo "Arquivo encontrado: libopenh264-2.3.0-android-arm.6.so"
-            mv libopenh264-2.3.0-android-arm.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
-        else
-            echo "Erro: Arquivo libopenh264-2.3.0-android-arm.6.so não encontrado após descompactação!"
-        fi
+        mv ./openh264-${arch}/libopenh264-2.3.0-android-arm.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
+        # if [ -f libopenh264-2.3.0-android-arm.6.so ]; then
+        #     echo "Arquivo encontrado: libopenh264-2.3.0-android-arm.6.so"
+        # else
+        #     echo "Erro: Arquivo libopenh264-2.3.0-android-arm.6.so não encontrado após descompactação!"
+        # fi
     elif [ "$arch" == "x86" ]
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x86.6.so.bz2
         bunzip2 -k openh264-${arch}.bz2
 
-        echo "Lista de arquivos no diretório atual (após extração, x86):"
-        find . -type f
+        # echo "Lista de arquivos no diretório atual (após extração, x86):"
+        # find . -type f
 
-        if [ -f libopenh264-2.3.0-android-x86.6.so ]; then
-            echo "Arquivo encontrado: libopenh264-2.3.0-android-x86.6.so"
-            mv libopenh264-2.3.0-android-x86.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
-        else
-            echo "Erro: Arquivo libopenh264-2.3.0-android-x86.6.so não encontrado após descompactação!"
-        fi
+            mv ./openh264-${arch}/libopenh264-2.3.0-android-x86.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
+        # if [ -f libopenh264-2.3.0-android-x86.6.so ]; then
+            # echo "Arquivo encontrado: libopenh264-2.3.0-android-x86.6.so"
+        # else
+        #     echo "Erro: Arquivo libopenh264-2.3.0-android-x86.6.so não encontrado após descompactação!"
+        # fi
     elif [ "$arch" == "x86_64" ]
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x64.6.so.bz2
         bunzip2 -k openh264-${arch}.bz2
 
-        echo "Lista de arquivos no diretório atual (após extração, x86_64):"
-        find . -type f
+        # echo "Lista de arquivos no diretório atual (após extração, x86_64):"
+        # find . -type f
 
-        if [ -f libopenh264-2.3.0-android-x64.6.so ]; then
-            echo "Arquivo encontrado: libopenh264-2.3.0-android-x64.6.so"
-            mv libopenh264-2.3.0-android-x64.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
-        else
-            echo "Erro: Arquivo libopenh264-2.3.0-android-x64.6.so não encontrado após descompactação!"
-        fi
+        # if [ -f libopenh264-2.3.0-android-x64.6.so ]; then
+        #     echo "Arquivo encontrado: libopenh264-2.3.0-android-x64.6.so"
+            mv ./openh264-${arch}/libopenh264-2.3.0-android-x64.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
+        # else
+        #     echo "Erro: Arquivo libopenh264-2.3.0-android-x64.6.so não encontrado após descompactação!"
+        # fi
     elif [ "$arch" == "arm64-v8a" ]
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm64.6.so.bz2
         bunzip2 -k openh264-${arch}.bz2
 
-        echo "Lista de arquivos no diretório atual (após extração, arm64-v8a):"
-        find . -type f
+        # echo "Lista de arquivos no diretório atual (após extração, arm64-v8a):"
+        # find . -type f
 
-        if [ -f libopenh264-2.3.0-android-arm64.6.so ]; then
-            echo "Arquivo encontrado: libopenh264-2.3.0-android-arm64.6.so"
-            mv libopenh264-2.3.0-android-arm64.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
-        else
-            echo "Erro: Arquivo libopenh264-2.3.0-android-arm64.6.so não encontrado após descompactação!"
-        fi
+        # if [ -f libopenh264-2.3.0-android-arm64.6.so ]; then
+        #     echo "Arquivo encontrado: libopenh264-2.3.0-android-arm64.6.so"
+            mv ./openh264-${arch}/libopenh264-2.3.0-android-arm64.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
+        # else
+        #     echo "Erro: Arquivo libopenh264-2.3.0-android-arm64.6.so não encontrado após descompactação!"
+        # fi
     fi
 done
 
