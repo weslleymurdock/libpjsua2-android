@@ -27,24 +27,20 @@ do
     if [ "$arch" == "armeabi-v7a" ]
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm.6.so.bz2
-        bunzip2 -k openh264-${arch}.bz2
-        mv libopenh264-2.3.0-android-arm.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
     elif [ "$arch" == "x86" ]
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x86.6.so.bz2
         bunzip2 -k openh264-${arch}.bz2
-        mv libopenh264-2.3.0-android-x86.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
     elif [ "$arch" == "x86_64" ]
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x64.6.so.bz2
         bunzip2 -k openh264-${arch}.bz2
-        mv libopenh264-2.3.0-android-x64.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
     elif [ "$arch" == "arm64-v8a" ]
     then
         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm64.6.so.bz2
         bunzip2 -k openh264-${arch}.bz2
-        mv libopenh264-2.3.0-android-arm64.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
     fi
+    mv libopenh264*.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
 done
 
 echo "Finished downloading OpenH264! Check output folder: ${OPENH264_BUILD_OUT_PATH}"
