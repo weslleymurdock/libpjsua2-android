@@ -32,7 +32,7 @@ do
         # Exibir todos os arquivos no diretório atual após a extração
         #echo "Lista de arquivos no diretório atual (após extração, armeabi-v7a):"
         #find . -type f
-
+ls -R ./openh264-${arch}
         mv ./openh264-${arch}/libopenh264-2.3.0-android-arm.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
         # if [ -f libopenh264-2.3.0-android-arm.6.so ]; then
         #     echo "Arquivo encontrado: libopenh264-2.3.0-android-arm.6.so"
@@ -46,7 +46,7 @@ do
 
         # echo "Lista de arquivos no diretório atual (após extração, x86):"
         # find . -type f
-
+ls -R ./openh264-${arch}
             mv ./openh264-${arch}/libopenh264-2.3.0-android-x86.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
         # if [ -f libopenh264-2.3.0-android-x86.6.so ]; then
             # echo "Arquivo encontrado: libopenh264-2.3.0-android-x86.6.so"
@@ -60,7 +60,7 @@ do
 
         # echo "Lista de arquivos no diretório atual (após extração, x86_64):"
         # find . -type f
-
+ls -R ./openh264-${arch}
         # if [ -f libopenh264-2.3.0-android-x64.6.so ]; then
         #     echo "Arquivo encontrado: libopenh264-2.3.0-android-x64.6.so"
             mv ./openh264-${arch}/libopenh264-2.3.0-android-x64.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
@@ -74,7 +74,7 @@ do
 
         # echo "Lista de arquivos no diretório atual (após extração, arm64-v8a):"
         # find . -type f
-
+        ls -R ./openh264-${arch}
         # if [ -f libopenh264-2.3.0-android-arm64.6.so ]; then
         #     echo "Arquivo encontrado: libopenh264-2.3.0-android-arm64.6.so"
             mv ./openh264-${arch}/libopenh264-2.3.0-android-arm64.6.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
