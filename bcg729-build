@@ -20,15 +20,15 @@ cd $BCG729_PATH
 echo "Patching bcg729 Android.mk ..."
 echo "there"
 ADD_TO_LOCAL_SRC_FILES=$(cat <<-END
-src\/utils\.c \\
-src\/cng\.c \\
-src\/dtx\.c \\
-src\/vad\.c
+src/utils.c \\
+src/cng.c \\
+src/dtx.c \\
+src/vad.c
 END
 )
-echo "here"
-sed -e "s/src\/utils\.c/${ADD_TO_LOCAL_SRC_FILES}/g" -i Android.mk
 
+sed -e "s|src/utils\.c|${ADD_TO_LOCAL_SRC_FILES}|g" -i Android.mk
+cat Android.mk
 # Build bcg729
 echo "Building bcg729 $BCG729_VERSION ..."
 
