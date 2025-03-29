@@ -25,9 +25,9 @@ src/dtx.c \\
 src/vad.c \\
 END
 )
-
+echo "$ADD_TO_LOCAL_SRC_FILES"
 # Certifique-se de usar aspas duplas para preservar quebras de linha e caracteres especiais
-sed -e "s|src/utils\.c|${ADD_TO_LOCAL_SRC_FILES}|g" -i Android.mk
+sed -e "s|src/utils\.c|$ADD_TO_LOCAL_SRC_FILES|g" -i Android.mk
 
 cat Android.mk
 # Build bcg729
