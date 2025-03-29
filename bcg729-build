@@ -23,11 +23,12 @@ ADD_TO_LOCAL_SRC_FILES=$(cat <<-END
 src/utils.c \\
 src/cng.c \\
 src/dtx.c \\
-src/vad.c
+src/vad.c \\
 END
 )
-
+echo "here"
 sed -e "s|src/utils\.c|${ADD_TO_LOCAL_SRC_FILES}|g" -i Android.mk
+
 cat Android.mk
 # Build bcg729
 echo "Building bcg729 $BCG729_VERSION ..."
