@@ -5,48 +5,13 @@ set -e
 # Source variables from config.conf file
 . config.conf
  
-
-##############################################################################
-############################        INIT          ############################
-##############################################################################
  
-
-##############################################################################
-############################        MAIN          ############################
-##############################################################################
-
-# for arch in "${TARGET_ARCHS[@]}"
-# do
-#     mkdir -p $OPENH264_BUILD_OUT_PATH/$arch/lib
-#     mkdir -p $OPENH264_BUILD_OUT_PATH/$arch/include/wels
-
-#     # Copiar os arquivos de cabeçalho
-#     cp -r -v $DOWNLOAD_DIR/$OPENH264_DIR_NAME/codec/api/wels $OPENH264_BUILD_OUT_PATH/$arch/include/wels
-
-#     # Fazer o download e extrair os arquivos de acordo com a arquitetura
-#     if [ "$arch" == "armeabi-v7a" ]
-#     then
-#         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm.6.so.bz2
-#     elif [ "$arch" == "x86" ]
-#     then
-#         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x86.6.so.bz2
-#     elif [ "$arch" == "x86_64" ]
-#     then
-#         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-x64.6.so.bz2
-#     elif [ "$arch" == "arm64-v8a" ]
-#     then
-#         curl -o openh264-${arch}.bz2 http://ciscobinary.openh264.org/libopenh264-2.3.0-android-arm64.6.so.bz2    
-#     fi
-#     bzcat openh264-${arch}.bz2 > libopenh264.so
-#     mv ./libopenh264.so $OPENH264_BUILD_OUT_PATH/$arch/lib/libopenh264.so
-# done
-#!/bin/bash
-
-# Configurações
-NDK_PATH=/opt/hostedtoolcache/ndk/r28/x64  # Substitua pelo caminho correto do NDK
-INSTALL_DIR=$OPENH264_BUILD_OUT_PATH  # Diretório onde os arquivos serão armazenados
-OPENH264_SOURCE_DIR=$OPENH264_DIR_NAME  # Diretório do código-fonte da OpenH264
-API_LEVEL=28  # Nível da API do Android
+ 
+# settings
+NDK_PATH=/opt/hostedtoolcache/ndk/r28/x64  
+INSTALL_DIR=$OPENH264_BUILD_OUT_PATH   
+OPENH264_SOURCE_DIR=$OPENH264_DIR_NAME   
+API_LEVEL=28  
 TARGET_ARCHS=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 
 # Preparação
@@ -93,7 +58,11 @@ build_for_arch() {
 
     # Limpar compilações anteriores
     cd "$OPENH264_SOURCE_DIR" || exit
-    make clean || exit
+    if make clean >/dev/null 2>&1; then
+        echo "Successfull cleanup"
+    else
+        echo "Target 'clean' not found, continuing..."
+    fi
 
     # Compilar
     make OS=android NDKROOT=$NDK_PATH TARGET=$TARGET NDKLEVEL=$API_LEVEL || exit
