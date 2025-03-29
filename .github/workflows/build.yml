@@ -47,8 +47,15 @@ jobs:
         cd ${{ github.workspace }}
         sudo ./prepare-build-system
       env:
+        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+        
+    - name: Build openh264
+      run: |
+        cd ${{ github.workspace }}
+        sudo ./openh264-build-target-archs
+      env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-   
+
     - name: Build bcg729
       run: |
         cd ${{ github.workspace }}
@@ -64,12 +71,6 @@ jobs:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
 
-    - name: Build openh264
-      run: |
-        cd ${{ github.workspace }}
-        sudo ./openh264-build-target-archs
-      env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
     - name: Build opus
       run: |
